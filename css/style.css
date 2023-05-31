@@ -1,0 +1,172 @@
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    gap: 10px;
+}
+h1 {
+    color: white;
+    font-family: "Rubik", sans-serif;
+    font-size: 7rem;
+    font-weight: 400;
+    text-align: center;
+    cursor: default;
+    position: relative;
+    width: 100%;
+}
+img {
+    margin: 0;
+    position: relative;
+    padding: 20px;
+    width: 3rem;
+    filter: brightness(0) invert(100%) sepia(100%) saturate(0%) hue-rotate(73deg) brightness(100%) contrast(103%) brightness(0.7);
+}
+#socials {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: auto;
+}
+#content {
+    z-index: 100;
+    user-select: none;
+}
+
+/* ----- MOBILE FRIENDLY ----- */
+
+@media only screen and (max-width: 500px) {
+    h1 {
+      font-size: 4rem;
+    }
+    img {
+      width: 2rem;
+      padding: 10px;
+    }
+  }
+
+/* ----- "MAGIC" TEXT EFFECT ----- */
+:root {
+    --purple: rgb(123, 31, 162);
+    --violet: rgb(103, 58, 183);
+    --pink: rgb(244, 143, 177);
+}
+
+@keyframes background-pan {
+    from {
+        background-position: 0% center;
+    }
+    to {
+        background-position: -200% center;
+    }
+}
+
+.magic {
+    animation: background-pan 3s linear infinite;
+    background: linear-gradient(
+        to right,
+        var(--purple),
+        var(--violet),
+        var(--pink),
+        var(--purple)
+    );
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowarp;
+    position: relative;
+    z-index: 100;
+}
+
+/* BACKGROUND */
+/* ---- reset ---- */
+body {
+    margin: 0;
+    /*font: normal 75% Arial, Helvetica, sans-serif;*/
+}
+canvas {
+    display: block;
+}
+/* ---- particles.js container ---- */
+#particles-js{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+/* ---- BUTTON ----*/
+.hidden {
+    display: none !important;
+}
+#toggle-ui {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-family: "Rubik", sans-serif;
+    color: white;
+    background: transparent;
+    border: 0px;
+    z-index: 999;
+    animation: lights 5s 750ms linear infinite;
+}
+
+@keyframes lights {
+    0% {
+      color: hsl(230, 40%, 80%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.2),
+        0 0 0.125em hsla(320, 100%, 60%, 0.3),
+        -1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+        1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+    }
+    
+    30% { 
+      color: hsl(230, 80%, 90%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 60%, 0.5),
+        -0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+        0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    40% { 
+      color: hsl(230, 100%, 95%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 90%, 0.5),
+        -0.25em -0.125em 0.125em hsla(40, 100%, 60%, 0.2),
+        0.25em 0.125em 0.125em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    70% {
+      color: hsl(230, 80%, 90%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 60%, 0.5),
+        0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+        -0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+    }
+    
+    100% {
+      color: hsl(230, 40%, 80%);
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.2),
+        0 0 0.125em hsla(320, 100%, 60%, 0.3),
+        1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+        -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+    }
+    
+  }

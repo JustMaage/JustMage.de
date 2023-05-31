@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>JustMage.de</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="css/style.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+  <noscript>
+    <style>
+      .noscriptmsg {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        font-size: 2rem;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: red;
+        z-index: 100;
+      }
+    </style>
+    <div class="noscriptmsg">
+      To fully experience the beauty of this page, please enable JavaScript.
+    </div>
+  </noscript>
+  <div id="content">
+    <h1 class="magic">JustMage</h1>
+    <div id="socials">
+        <a href="https://github.com/JustMaage" target="_blank"><img src="images/Github.svg" alt="Github"></a>
+        <a href="https://www.instagram.com/JustMaage" target="_blank"><img src="images/Instagram.svg" alt="Instagram"></a>
+        <a href="https://www.twitch.tv/JustMaage" target="_blank"><img src="images/Twitch.svg" alt="Twitch"></a>
+        <a href="https://discord.gg/fDKbEpjCdN" target="_blank"><img src="images/Discord.svg" alt="Discord"></a>
+        <a href="https://open.spotify.com/user/1q1kuvgm90xeh0geepgg3e32h" target="_blank"><img src="images/Spotify.svg" alt="Spotify"></a>
+        <a href="https://steamcommunity.com/id/DasMxge/" target="_blank"><img src="images/Steam.svg" alt="Steam"></a>
+    </div>
+  </div>
+
+  <button id="toggle-ui">Toggle UI</button>
+  <script>
+    const toggleUI = () => {
+      const content = document.getElementById("content");
+      const button = document.getElementById("toggle-ui");
+      if (content.classList.contains("hidden")) {
+        content.classList.remove("hidden");
+      } else {
+        content.classList.add("hidden");
+      }
+    }
+    document.getElementById("toggle-ui").addEventListener("click", toggleUI);
+  </script>
+
+  <!-- particles.js container -->
+  <div id="particles-js"></div>
+  <!-- scripts -->
+  <script src="js/particles.min.js"></script>
+  <script src="js/background.js"></script>
+</body>
+
+</html>
