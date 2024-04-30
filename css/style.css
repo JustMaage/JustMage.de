@@ -35,6 +35,12 @@ img {
     flex-wrap: wrap;
     height: auto;
 }
+#socials a img {
+    transition: filter 0.4s ease;
+}
+#socials a img:hover {
+    filter: none;
+}
 #content {
     z-index: 100;
     user-select: none;
