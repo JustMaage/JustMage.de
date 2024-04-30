@@ -41,6 +41,52 @@ img {
 #socials a img:hover {
     filter: none;
 }
+
+.hover-text {
+    font-family: "Rubik", sans-serif;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.github:hover > .hover-text {
+    box-shadow: 0 0 20px 0 rgba(250, 250, 250, 0.9) !important;
+}
+
+.twitch:hover > .hover-text {
+    box-shadow: 0 0 20px 0 rgba(145, 70, 255, 0.9) !important;
+}
+
+.telegram:hover > .hover-text {
+    box-shadow: 0 0 20px 0 rgba(42, 171, 238, 0.9) !important;
+}
+
+.discord:hover > .hover-text {
+    box-shadow: 0 0 20px 0 rgba(114, 137, 218, 0.9) !important;
+}
+
+.steam:hover > .hover-text {
+    box-shadow: 0 0 20px 0 rgba(0, 173, 238, 0.9) !important;
+}
+
+#socials a {
+    position: relative;
+}
+
+#socials a:hover .hover-text {
+    opacity: 1;
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.9);
+}
+
 #content {
     z-index: 100;
     user-select: none;
