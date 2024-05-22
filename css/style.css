@@ -24,6 +24,7 @@ h1 {
     cursor: default;
     position: relative;
     width: 100%;
+    margin-top: 0px;
 }
 
 #content {
@@ -40,6 +41,7 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0px;
 }
 
 .socials .icon-content {
@@ -129,10 +131,6 @@ ul {
     h1 {
       font-size: 4rem;
     }
-    img {
-      width: 2rem;
-      padding: 10px;
-    }
   }
 
 /* ----- "MAGIC" TEXT EFFECT ----- */
@@ -173,7 +171,6 @@ ul {
 /* ---- reset ---- */
 body {
     margin: 0;
-    /*font: normal 75% Arial, Helvetica, sans-serif;*/
 }
 canvas {
     display: block;
