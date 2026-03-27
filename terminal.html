@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Terminal Tricks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <style>
+    @font-face {
+      font-family: "Rubik";
+      src: url('fonts/Rubik.ttf') format('truetype');
+    }
+
+    :root {
+      --purple: rgb(123, 31, 162);
+      --violet: rgb(103, 58, 183);
+      --pink: rgb(244, 143, 177);
+      --bg: #0d0d0d;
+      --card: #161616;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --muted: #888;
+      --green: #4ec94e;
+      --blue: #5b9bd5;
+      --red: #e05c5c;
+      --yellow: #e0c05c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Rubik", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 60px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    @keyframes background-pan {
+      from { background-position: 0% center; }
+      to   { background-position: -200% center; }
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 400;
+      animation: background-pan 3s linear infinite;
+      background: linear-gradient(to right, var(--purple), var(--violet), var(--pink), var(--purple));
+      background-size: 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red    { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green  { background: #28c840; }
+
+    .section-title {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-left: 4px;
+      flex: 1;
+      text-align: center;
+    }
+
+    .section-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .command-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .label.slow   { color: var(--yellow); }
+    .label.bomb   { color: var(--red); }
+
+    .code-block {
+      position: relative;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 48px 14px 16px;
+    }
+
+    .code-block code {
+      font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--border);
+      border: none;
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      font-family: "Rubik", sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #3a3a3a;
+      color: var(--text);
+    }
+
+    .copy-btn.copied {
+      background: #1a3a1a;
+      color: var(--green);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    .warning {
+      text-align: center;
+      color: var(--red);
+      font-size: 0.78rem;
+      margin-top: 40px;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Terminal Tricks</h1>
+    <p>Use with caution &mdash; or don't</p>
+  </header>
+
+  <div class="sections">
+
+    <!-- PowerShell -->
+    <div class="section">
+      <div class="section-header">
+        <div class="dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span class="section-title">PowerShell</span>
+      </div>
+      <div class="section-body">
+
+        <div class="command-group">
+          <span class="label slow">Slow Terminal</span>
+          <div class="code-block">
+            <code>if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -Type File -Force }; Add-Content -Path $PROFILE -Value "`nAdd-Content -Path `$PROFILE -Value 'Start-Sleep -m 1'"</code>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="command-group">
+          <span class="label bomb">Fork Bomb</span>
+          <div class="code-block">
+            <code>function f { f | f &amp; }; f</code>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Linux Shell -->
+    <div class="section">
+      <div class="section-header">
+        <div class="dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span class="section-title">Linux Shell</span>
+      </div>
+      <div class="section-body">
+
+        <div class="command-group">
+          <span class="label slow">Slow Terminal</span>
+          <div class="code-block">
+            <code>echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc</code>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="command-group">
+          <span class="label bomb">Fork Bomb</span>
+          <div class="code-block">
+            <code>:() { &amp; : | : };:</code>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <p class="warning">These commands can cause serious damage. Only use on systems you own.</p>
+
+  <script>
+    const rawCommands = {
+      0: `if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -Type File -Force }; Add-Content -Path $PROFILE -Value "\`nAdd-Content -Path \`$PROFILE -Value 'Start-Sleep -m 1'"`,
+      1: `function f { f | f & }; f`,
+      2: `echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc`,
+      3: `:() { & : | : };:`
+    };
+
+    function copyCode(btn) {
+      const block = btn.closest('.code-block');
+      const allBlocks = document.querySelectorAll('.code-block');
+      const index = Array.from(allBlocks).indexOf(block);
+      const text = rawCommands[index];
+
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+
+</html>
