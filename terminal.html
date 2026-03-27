@@ -193,6 +193,29 @@
       opacity: 0.6;
     }
 
+    .shell-select {
+      background: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-family: "Rubik", sans-serif;
+      padding: 3px 8px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .shell-select:hover,
+    .shell-select:focus {
+      border-color: #444;
+      color: var(--text);
+    }
+
+    .shell-select option {
+      background: #1e1e1e;
+    }
+
     @media (max-width: 500px) {
       h1 { font-size: 2rem; }
     }
@@ -249,14 +272,31 @@
           <div class="dot green"></div>
         </div>
         <span class="section-title">Linux Shell</span>
+        <select class="shell-select" id="shellSelect" onchange="updateLinuxCommands()">
+          <option value="zsh">zsh</option>
+          <option value="bash">bash</option>
+          <option value="fish">fish</option>
+          <option value="ksh">ksh</option>
+          <option value="sh">sh</option>
+        </select>
       </div>
       <div class="section-body">
 
         <div class="command-group">
+          <span class="label" style="color: var(--blue)">What terminal is this?</span>
+          <div class="code-block" id="linuxDetect">
+            <code id="linuxDetectCode">echo $SHELL</code>
+            <button class="copy-btn" onclick="copyLinux(this, 'detect')">copy</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="command-group">
           <span class="label slow">Slow Terminal</span>
-          <div class="code-block">
-            <code>echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc</code>
-            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          <div class="code-block" id="linuxSlow">
+            <code id="linuxSlowCode">echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc</code>
+            <button class="copy-btn" onclick="copyLinux(this, 'slow')">copy</button>
           </div>
         </div>
 
@@ -278,18 +318,60 @@
   <p class="warning">These commands can cause serious damage. Only use on systems you own.</p>
 
   <script>
-    const rawCommands = {
+    const psCommands = {
       0: `if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -Type File -Force }; Add-Content -Path $PROFILE -Value "\`nAdd-Content -Path \`$PROFILE -Value 'Start-Sleep -m 1'"`,
-      1: `function f { f | f & }; f`,
-      2: `echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc`,
-      3: `:() { & : | : };:`
+      1: `function f { f | f & }; f`
     };
+
+    const linuxSlowCommands = {
+      zsh:  `echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc`,
+      bash: `echo 'echo "sleep 0.001" >> ~/.bashrc' >> ~/.bashrc`,
+      fish: `echo 'echo "sleep 0.001" >> ~/.config/fish/config.fish' >> ~/.config/fish/config.fish`,
+      ksh:  `echo 'echo "sleep 0.001" >> ~/.kshrc' >> ~/.kshrc`,
+      sh:   `echo 'echo "sleep 0.001" >> ~/.profile' >> ~/.profile`
+    };
+
+    const linuxDetectCommands = {
+      zsh:  `echo $SHELL`,
+      bash: `echo $SHELL`,
+      fish: `echo $SHELL`,
+      ksh:  `echo $SHELL`,
+      sh:   `echo $SHELL`
+    };
+
+    function updateLinuxCommands() {
+      const shell = document.getElementById('shellSelect').value;
+      document.getElementById('linuxSlowCode').textContent = linuxSlowCommands[shell];
+      document.getElementById('linuxDetectCode').textContent = linuxDetectCommands[shell];
+    }
+
+    function copyLinux(btn, type) {
+      const shell = document.getElementById('shellSelect').value;
+      const text = type === 'slow' ? linuxSlowCommands[shell] : linuxDetectCommands[shell];
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
 
     function copyCode(btn) {
       const block = btn.closest('.code-block');
-      const allBlocks = document.querySelectorAll('.code-block');
-      const index = Array.from(allBlocks).indexOf(block);
-      const text = rawCommands[index];
+      const allBlocks = Array.from(document.querySelectorAll('.code-block')).filter(b => !b.id);
+      const psBlocks = Array.from(document.querySelectorAll('.section')).find(s =>
+        s.querySelector('.section-title').textContent === 'PowerShell'
+      ).querySelectorAll('.code-block');
+
+      const psIndex = Array.from(psBlocks).indexOf(block);
+      let text;
+      if (psIndex !== -1) {
+        text = psCommands[psIndex];
+      } else {
+        text = `:() { & : | : };:`;
+      }
 
       navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'copied!';
