@@ -260,6 +260,26 @@
           </div>
         </div>
 
+        <div class="divider"></div>
+
+        <div class="command-group">
+          <span class="label" style="color: var(--green)">Hund mit Licht</span>
+          <div class="code-block">
+            <code>Invoke-WebRequest "https://justmage.de/images/hund-mit-licht.gif" -OutFile "$env:USERPROFILE\Pictures\hintergrund.gif"
+
+$path = "$env:USERPROFILE\Pictures\hintergrund.gif"
+Add-Type -TypeDefinition @"
+using System.Runtime.InteropServices;
+public class Wallpaper {
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+}
+"@
+[Wallpaper]::SystemParametersInfo(20, 0, $path, 3)</code>
+            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -313,6 +333,33 @@
       </div>
     </div>
 
+    <!-- macOS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span class="section-title">macOS</span>
+      </div>
+      <div class="section-body">
+
+        <div class="command-group">
+          <span class="label" style="color: var(--green)">Hund mit Licht</span>
+          <div class="code-block">
+            <code># Download the GIF
+curl -L "https://justmage.de/images/hund-mit-licht.gif" -o "$HOME/Pictures/hintergrund.gif"
+
+# Set the wallpaper (will show only the first frame)
+osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$HOME/Pictures/hintergrund.gif"'"'</code>
+            <button class="copy-btn" onclick="copyMac(this)">copy</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <p class="warning">These commands can cause serious damage. Only use on systems you own.</p>
@@ -320,8 +367,11 @@
   <script>
     const psCommands = {
       0: `if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -Type File -Force }; Add-Content -Path $PROFILE -Value "\`nAdd-Content -Path \`$PROFILE -Value 'Start-Sleep -m 1'"`,
-      1: `function f { f | f & }; f`
+      1: `function f { f | f & }; f`,
+      2: `Invoke-WebRequest "https://justmage.de/images/hund-mit-licht.gif" -OutFile "$env:USERPROFILE\\Pictures\\hintergrund.gif"\n\n$path = "$env:USERPROFILE\\Pictures\\hintergrund.gif"\nAdd-Type -TypeDefinition @"\nusing System.Runtime.InteropServices;\npublic class Wallpaper {\n    [DllImport("user32.dll", SetLastError = true)]\n    public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);\n}\n"@\n[Wallpaper]::SystemParametersInfo(20, 0, $path, 3)`
     };
+
+    const macHundMitLicht = `# Download the GIF\ncurl -L "https://justmage.de/images/hund-mit-licht.gif" -o "$HOME/Pictures/hintergrund.gif"\n\n# Set the wallpaper (will show only the first frame)\nosascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$HOME/Pictures/hintergrund.gif"'"'`;
 
     const linuxSlowCommands = {
       zsh:  `echo 'echo "sleep 0.001" >> ~/.zshrc' >> ~/.zshrc`,
@@ -349,6 +399,17 @@
       const shell = document.getElementById('shellSelect').value;
       const text = type === 'slow' ? linuxSlowCommands[shell] : linuxDetectCommands[shell];
       navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function copyMac(btn) {
+      navigator.clipboard.writeText(macHundMitLicht).then(() => {
         btn.textContent = 'copied!';
         btn.classList.add('copied');
         setTimeout(() => {
