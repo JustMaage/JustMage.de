@@ -265,17 +265,23 @@
         <div class="command-group">
           <span class="label" style="color: var(--green)">Hund mit Licht</span>
           <div class="code-block">
-            <code>Invoke-WebRequest "https://justmage.de/images/hund-mit-licht.gif" -OutFile "$env:USERPROFILE\Pictures\hintergrund.gif"
+            <code>function Set-Wallpaper {
+    Invoke-WebRequest "https://justmage.de/images/hund-mit-licht.gif" -OutFile "$env:USERPROFILE\Pictures\hintergrund.gif"
 
-$path = "$env:USERPROFILE\Pictures\hintergrund.gif"
-Add-Type -TypeDefinition @"
-using System.Runtime.InteropServices;
-public class Wallpaper {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-}
+    $path = "$env:USERPROFILE\Pictures\hintergrund.gif"
+    Add-Type -TypeDefinition @"
+    using System.Runtime.InteropServices;
+    public class Wallpaper {
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+    }
 "@
-[Wallpaper]::SystemParametersInfo(20, 0, $path, 3)</code>
+    [Wallpaper]::SystemParametersInfo(20, 0, $path, 3)
+	
+	exit
+}
+
+Set-Wallpaper</code>
             <button class="copy-btn" onclick="copyCode(this)">copy</button>
           </div>
         </div>
